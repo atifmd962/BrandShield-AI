@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  CREATOR
+  REVIEWER
+  MANAGER
+}
+
+enum DocumentStatus {
+  UPLOADING
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum ReviewStatus {
+  DRAFT
+  ANALYZING
+  ANALYZED
+  APPROVED
+  REJECTED
+  CHANGES_REQUESTED
+}
+
+enum ClaimStatus {
+  SUPPORTED
+  UNVERIFIED
+  CONTRADICTED
+}
+
+enum Severity {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum DecisionAction {
+  APPROVE
+  REJECT
+  REQUEST_CHANGES
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(CREATOR)
+  createdAt DateTime @default(now())
+
+  documents BrandDocument[]
+  reviews   Review[]
+  decisions ReviewDecision[]
+}
+
+model BrandDocument {
+  id           String         @id @default(cuid())
+  name         String
+  fileType     String
+  version      String         @default("1.0")
+  blobUrl      String?
+  status       DocumentStatus @default(UPLOADING)
+  errorMessage String?
+  uploadedById String
+  createdAt    DateTime       @default(now())
+
+  uploadedBy User      @relation(fields: [uploadedById], references: [id])
+  passages   Passage[]
+}
+
+model Passage {
+  id         String @id @default(cuid())
+  documentId String
+  content    String
+  pageNumber Int?   @default(0)
+  chunkIndex Int    @default(0)
+
+  document BrandDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id            String       @id @default(cuid())
+  campaignName  String
+  product       String
+  content       String       @db.Text
+  status        ReviewStatus @default(DRAFT)
+  submittedById String
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  submittedBy User             @relation(fields: [submittedById], references: [id])
+  findings    Finding[]
+  decisions   ReviewDecision[]
+  revisions   ReviewRevision[]
+}
+
+model Finding {
+  id                  String      @id @default(cuid())
+  reviewId            String
+  claim               String      @db.Text
+  issueCategory       String
+  status              ClaimStatus
+  severity            Severity
+  explanation         String      @db.Text
+  evidence            String?     @db.Text
+  sourceDocument      String?
+  sourcePage          String?
+  suggestedCorrection String?     @db.Text
+  createdAt           DateTime    @default(now())
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+}
+
+model ReviewDecision {
+  id         String         @id @default(cuid())
+  reviewId   String
+  reviewerId String
+  action     DecisionAction
+  comment    String?        @db.Text
+  createdAt  DateTime       @default(now())
+
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  reviewer User   @relation(fields: [reviewerId], references: [id])
+}
+
+model ReviewRevision {
+  id               String   @id @default(cuid())
+  reviewId         String
+  versionNumber    Int
+  content          String   @db.Text
+  findingsSnapshot Json?
+  decisionAction   String?
+  decisionComment  String?  @db.Text
+  reviewerName     String?
+  createdAt        DateTime @default(now())
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+}

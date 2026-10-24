@@ -1,0 +1,26 @@
+NovaTech Flow — Approved Product Facts
+Version 1.0 | Confidential Brand Document
+
+PERFORMANCE
+NovaTech Flow reduces processing time by up to 30%. This performance improvement has been validated through internal benchmarking under standard operating conditions. Claims of greater reductions are not supported by current product data.
+
+WARRANTY
+NovaTech Flow includes a 1-year standard warranty covering manufacturing defects and product failures under normal use. Extended warranty options are available separately through the NovaTech support portal. The standard warranty does not cover misuse, accidental damage, or third-party modifications.
+
+PRODUCT CONFIGURATIONS
+NovaTech Flow is available in three configurations: Starter, Professional, and Enterprise. The Starter configuration is designed for small teams (up to 10 users). The Professional configuration supports teams of up to 100 users. The Enterprise configuration is designed for large organisations with custom integration needs.
+
+INTEGRATIONS
+NovaTech Flow integrates with existing enterprise systems via RESTful API. Dedicated integration support is provided for Professional and Enterprise tiers. Starter tier customers have access to self-service documentation.
+
+PRICING
+NovaTech Flow pricing is available on request. Volume discounts apply for orders of 10 or more licences. Educational and non-profit pricing is available on application.
+
+CUSTOMER BASE
+NovaTech Flow has been adopted by over 200 organisations across the manufacturing and logistics sectors as of Q4 2024.
+
+COMPLIANCE
+NovaTech Flow meets ISO 27001 information security standards. Third-party security audits are conducted annually.
+
+SUPPORT
+NovaTech Flow customers receive email support with a 2-business-day response SLA on Starter, and priority phone support on Professional and Enterprise tiers.
