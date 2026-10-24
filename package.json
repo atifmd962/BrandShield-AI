@@ -5,17 +5,17 @@
   "scripts": {
     "dev": "next dev --webpack",
     "dev:turbo": "next dev --turbo",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && prisma db push --skip-generate && tsx prisma/seed.ts && next build",
     "start": "next start",
     "lint": "eslint",
-    "db:generate": ".\\node_modules\\.bin\\prisma.cmd generate",
-    "db:push": ".\\node_modules\\.bin\\prisma.cmd db push",
-    "db:migrate": ".\\node_modules\\.bin\\prisma.cmd migrate dev",
-    "db:seed": ".\\node_modules\\.bin\\tsx.cmd prisma/seed.ts",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx prisma/seed.ts",
     "postinstall": "prisma generate"
   },
   "prisma": {
-    "seed": ".\\node_modules\\.bin\\tsx.cmd prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -29,7 +29,8 @@
     "pdf-parse": "^2.4.5",
     "prisma": "^5.22.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "tsx": "^4.23.15"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -41,7 +42,6 @@
     "postcss": "^8.5.31",
     "tailwindcss": "^3.4.19",
     "ts-node": "^10.9.2",
-    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

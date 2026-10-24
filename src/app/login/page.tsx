@@ -32,12 +32,14 @@ export default function LoginPage() {
     setLoading(true)
     try {
       const result = await signIn('credentials', { email, password, redirect: false })
-      if (result?.ok) {
-        router.replace('/dashboard')
+      console.log('[Login] signIn result:', JSON.stringify(result))
+      if (result?.error) {
+        setError('Invalid email or password.')
       } else {
-        setError(result?.error === 'CredentialsSignin' ? 'Invalid email or password.' : (result?.error ?? 'Sign-in failed. Please try again.'))
+        router.replace('/dashboard')
       }
-    } catch {
+    } catch (err) {
+      console.error('[Login] signIn exception:', err)
       setError('An unexpected error occurred. Please try again.')
     } finally {
       setLoading(false)
@@ -53,12 +55,14 @@ export default function LoginPage() {
         password: account.password,
         redirect: false,
       })
-      if (result?.ok) {
-        router.replace('/dashboard')
+      console.log('[Login] quickLogin result:', JSON.stringify(result))
+      if (result?.error) {
+        setError('Invalid email or password.')
       } else {
-        setError(result?.error === 'CredentialsSignin' ? 'Invalid email or password.' : (result?.error ?? 'Sign-in failed. Please try again.'))
+        router.replace('/dashboard')
       }
-    } catch {
+    } catch (err) {
+      console.error('[Login] quickLogin exception:', err)
       setError('An unexpected error occurred. Please try again.')
     } finally {
       setLoading(false)
